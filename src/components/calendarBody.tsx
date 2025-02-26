@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import { useState } from "react";
 import useCalendar from "../hooks/useCalendar.ts";
+
 const CalendarBody = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const onOpen = () => {
-    setOpenModal(!openModal)
-  }
+    setOpenModal(!openModal);
+  };
 
-  const calendar = useCalendar()
+  // useCalendar 훅을 사용하여 날짜 관련 데이터를 가져옵니다.
+  const { weekCalendarList, currentDate } = useCalendar();
 
-  console.log(calendar.weekCalendarList)
   return (
       <>
         <Wrapper>
@@ -24,73 +25,32 @@ const CalendarBody = () => {
               <li>토</li>
             </LineBox>
           </div>
-          <div>
-            <LineBox>
-              <PlanBox>djdjdj</PlanBox>
-              <li onClick={onOpen}>
-                29
-                {openModal ? (
-                    <ModalWrapper>
-                      <ul>
-                        <li>일정</li>
-                        <li>할일</li>
-                        <li>스티커</li>
-                      </ul>
-                    </ModalWrapper>
-                ) : undefined}
-              </li>
-              <li>30</li>
-              <li>31</li>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-            </LineBox>
-          </div>
-          <div>
-            <LineBox>
-              <li>5</li>
-              <li>6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-            </LineBox>
-          </div>
-          <div>
-            <LineBox>
-              <li>12</li>
-              <li>13</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-              <li>17</li>
-              <li>18</li>
-            </LineBox>
-          </div>
-          <div>
-            <LineBox>
-              <li>19</li>
-              <li>20</li>
-              <li>21</li>
-              <li>22</li>
-              <li>23</li>
-              <li>24</li>
-              <li>25</li>
-            </LineBox>
-          </div>
-          <div>
-            <LineBox>
-              <li>26</li>
-              <li>27</li>
-              <li>28</li>
-              <li>29</li>
-              <li>30</li>
-              <li>31</li>
-              <li>32</li>
-            </LineBox>
-          </div>
+          {/* 달력에 주별로 날짜를 나누어 렌더링 */}
+          {weekCalendarList.map((week, weekIndex) => (
+              <div key={weekIndex}>
+                <LineBox>
+                  {week.map((day, dayIndex) =>
+                      day === 0 ? (
+                          // 빈 날짜인 경우 (0으로 설정된 날짜)
+                          <li key={dayIndex}></li>
+                      ) : (
+                          <li key={dayIndex} onClick={onOpen}>
+                            {day}
+                            {openModal && (
+                                <ModalWrapper>
+                                  <ul>
+                                    <li>일정</li>
+                                    <li>할일</li>
+                                    <li>스티커</li>
+                                  </ul>
+                                </ModalWrapper>
+                            )}
+                          </li>
+                      )
+                  )}
+                </LineBox>
+              </div>
+          ))}
         </Wrapper>
       </>
   );
@@ -98,41 +58,41 @@ const CalendarBody = () => {
 export default CalendarBody;
 
 const Wrapper = styled.div`
-  margin: 50px 0;
-  > div:first-of-type {
-    padding-bottom: 20px;
-  }
-  > div:not(:first-of-type) {
-    > ul {
-      border-top: 1px solid var(--color-gray);
-      padding-top: 20px;
-      > li {
-        height: 100px;
-      }
+    margin: 50px 0;
+    > div:first-of-type {
+        padding-bottom: 20px;
     }
-  }
+    > div:not(:first-of-type) {
+        > ul {
+            border-top: 1px solid var(--color-gray);
+            padding-top: 20px;
+            > li {
+                height: 100px;
+            }
+        }
+    }
 `;
 
 const LineBox = styled.ul`
-  position: relative;
-  display: flex;
-  li {
-      position: relative;
-      flex: 1;
-      text-align: center;
-  }
+    position: relative;
+    display: flex;
+    li {
+        position: relative;
+        flex: 1;
+        text-align: center;
+    }
 `;
 
 const PlanBox = styled.span`
-  background: rgb(63, 169, 245);
-  position: absolute;
-  left: 0;
-  top: 40px;
-  width: calc(100% / 7);
-  border-radius: 8px;
-  padding: 2px 5px;
-  font-size: 12px;
-  color: #fff;
+    background: rgb(63, 169, 245);
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: calc(100% / 7);
+    border-radius: 8px;
+    padding: 2px 5px;
+    font-size: 12px;
+    color: #fff;
 `;
 
 const ModalWrapper = styled.div`
@@ -147,7 +107,7 @@ const ModalWrapper = styled.div`
     padding: 10px;
     text-align: left;
     ul {
-        li{
+        li {
             height: 30px;
             line-height: 30px;
             cursor: pointer;
@@ -157,4 +117,4 @@ const ModalWrapper = styled.div`
             }
         }
     }
-`
+`;
