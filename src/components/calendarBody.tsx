@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import useCalendar from "../hooks/useCalendar.ts";
+const DAY_LIST = ["일", "월", "화", "수", "목", "금", "토"];
 
 const CalendarBody = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -16,41 +17,42 @@ const CalendarBody = () => {
         <Wrapper>
           <div>
             <LineBox>
-              <li>일</li>
-              <li>월</li>
-              <li>화</li>
-              <li>수</li>
-              <li>목</li>
-              <li>금</li>
-              <li>토</li>
+              <>
+                {DAY_LIST.map((week, weekIndex) => (
+                    <li key={weekIndex}>{week}</li>
+                ))}
+              </>
             </LineBox>
           </div>
-          {/* 달력에 주별로 날짜를 나누어 렌더링 */}
-          {weekCalendarList.map((week, weekIndex) => (
-              <div key={weekIndex}>
-                <LineBox>
-                  {week.map((day, dayIndex) =>
-                      day === 0 ? (
-                          // 빈 날짜인 경우 (0으로 설정된 날짜)
-                          <li key={dayIndex}></li>
-                      ) : (
-                          <li key={dayIndex} onClick={onOpen}>
-                            {day}
-                            {openModal && (
-                                <ModalWrapper>
-                                  <ul>
-                                    <li>일정</li>
-                                    <li>할일</li>
-                                    <li>스티커</li>
-                                  </ul>
-                                </ModalWrapper>
-                            )}
-                          </li>
-                      )
-                  )}
-                </LineBox>
-              </div>
-          ))}
+          <>
+            {weekCalendarList.map((week, weekIndex) => (
+                <div key={weekIndex}>
+                  <LineBox>
+                    <>
+                      {week.map((day, dayIndex) =>
+                          day === 0 ? (
+                              // 빈 날짜인 경우 (0으로 설정된 날짜)
+                              <li key={dayIndex}></li>
+                          ) : (
+                              <li key={dayIndex} onClick={onOpen}>
+                                {day}
+                                {openModal && (
+                                    <ModalWrapper>
+                                      <ul>
+                                        <li>일정</li>
+                                        <li>할일</li>
+                                        <li>스티커</li>
+                                      </ul>
+                                    </ModalWrapper>
+                                )}
+                              </li>
+                          )
+                      )}
+                    </>
+                  </LineBox>
+                </div>
+            ))}
+          </>
         </Wrapper>
       </>
   );

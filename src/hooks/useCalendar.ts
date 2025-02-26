@@ -1,11 +1,10 @@
 import { getDaysInMonth, addMonths, subMonths } from "date-fns";
-import React, { useState, useMemo } from "react";
+import { useState } from "react";
 
 const DATE_MONTH_FIXER = 1;
 const CALENDAR_LENGTH = 35;
 const DEFAULT_TRASH_VALUE = 0;
 const DAY_OF_WEEK = 7;
-const DAY_LIST = ["일", "월", "화", "수", "목", "금", "토"];
 
 type WeekCalendar = number[][];
 
@@ -26,46 +25,34 @@ const useCalendar = (): UseCalendarReturn => {
   const firstDayIndex = firstDayOfMonth.getDay(); // 0(일)부터 6(토)
 
   // 이전 달의 날짜 리스트 계산
-  const prevDayList = useMemo(() =>
-          Array.from({
-            length: firstDayIndex, // 첫 날 전의 빈 칸
-          }).map(() => DEFAULT_TRASH_VALUE),
-      [firstDayIndex]
-  );
+  const prevDayList = Array.from({
+    length: firstDayIndex, // 첫 날 전의 빈 칸
+  }).map(() => DEFAULT_TRASH_VALUE);
 
   // 현재 달의 날짜 리스트 계산
-  const currentDayList = useMemo(() =>
-          Array.from({ length: totalMonthDays }).map(
-              (_, i) => i + 1,
-          ),
-      [totalMonthDays]
+  const currentDayList = Array.from({ length: totalMonthDays }).map(
+      (_, i) => i + 1,
   );
 
   // 다음 달의 날짜 리스트 계산
-  const nextDayList = useMemo(() =>
-          Array.from({
-            length: CALENDAR_LENGTH - currentDayList.length - prevDayList.length,
-          }).map(() => DEFAULT_TRASH_VALUE),
-      [currentDayList.length, prevDayList.length]
-  );
+  const nextDayList = Array.from({
+    length: CALENDAR_LENGTH - currentDayList.length - prevDayList.length,
+  }).map(() => DEFAULT_TRASH_VALUE);
 
   // 모든 날짜 리스트 결합
-  const currentCalendarList = useMemo(() =>
-          prevDayList.concat(currentDayList, nextDayList),
-      [prevDayList, currentDayList, nextDayList]
-  );
+  const currentCalendarList = prevDayList.concat(currentDayList, nextDayList);
 
   // 주별 캘린더 리스트로 변환
-  const weekCalendarList = useMemo(() =>
-          currentCalendarList.reduce((acc: WeekCalendar, cur, idx) => {
-            const chunkIndex = Math.floor(idx / DAY_OF_WEEK);
-            if (!acc[chunkIndex]) {
-              acc[chunkIndex] = [];
-            }
-            acc[chunkIndex].push(cur);
-            return acc;
-          }, []),
-      [currentCalendarList]
+  const weekCalendarList = currentCalendarList.reduce(
+      (acc: WeekCalendar, cur, idx) => {
+        const chunkIndex = Math.floor(idx / DAY_OF_WEEK);
+        if (!acc[chunkIndex]) {
+          acc[chunkIndex] = [];
+        }
+        acc[chunkIndex].push(cur);
+        return acc;
+      },
+      [],
   );
 
   const goToPreviousMonth = () => setCurrentDate(subMonths(currentDate, 1));
