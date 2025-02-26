@@ -1,10 +1,15 @@
 import styled from "styled-components";
-import {useState} from "react";
+import { useState } from "react";
+import useCalendar from "../hooks/useCalendar.ts";
 const CalendarBody = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const onOpen = () => {
     setOpenModal(!openModal)
   }
+
+  const calendar = useCalendar()
+
+  console.log(calendar.weekCalendarList)
   return (
       <>
         <Wrapper>
