@@ -30,6 +30,7 @@ const useCalendar = (): UseCalendarReturn => {
     length: firstDayIndex, // 첫 날 전의 빈 칸
   }).map(() => DEFAULT_TRASH_VALUE);
 
+
   // 현재 달의 날짜 리스트 계산
   const currentDayList = Array.from({ length: totalMonthDays }).map(
       (_, i) => i + 1,
@@ -42,6 +43,7 @@ const useCalendar = (): UseCalendarReturn => {
 
   // 모든 날짜 리스트 결합
   const currentCalendarList = prevDayList.concat(currentDayList, nextDayList);
+
 
   // 주별 캘린더 리스트로 변환
   const weekCalendarList = currentCalendarList.reduce(

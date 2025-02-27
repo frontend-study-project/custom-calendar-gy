@@ -3,7 +3,7 @@ import useCalendar from "../hooks/useCalendar.ts";
 
 const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn}) => {
   const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1;
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 
   return (
     <Wrapper>
