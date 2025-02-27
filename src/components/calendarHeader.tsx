@@ -1,13 +1,9 @@
 import styled from "styled-components";
 import useCalendar from "../hooks/useCalendar.ts";
 
-const CalendarHeader = () => {
-  const { weekCalendarList, currentDate, setCurrentDate, goToPreviousMonth, goToNextMonth } = useCalendar()
+const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn}) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
-  const todayBtn = () => {
-    setCurrentDate(new Date())
-  };
 
   return (
     <Wrapper>

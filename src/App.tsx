@@ -3,12 +3,22 @@ import "./App.css";
 import styled from "styled-components";
 import CalendarHeader from "./components/calendarHeader";
 import CalendarBody from "./components/calendarBody";
+import useCalendar from "./hooks/useCalendar.ts";
 
 function App() {
+  const { weekCalendarList, currentDate, setCurrentDate, goToPreviousMonth, goToNextMonth, todayBtn } = useCalendar()
+
   return (
     <Container>
-      <CalendarHeader />
-      <CalendarBody />
+      <CalendarHeader
+          currentDate={currentDate}
+          goToPreviousMonth={goToPreviousMonth}
+          goToNextMonth={goToNextMonth}
+          todayBtn={todayBtn}
+      />
+      <CalendarBody
+          weekCalendarList={weekCalendarList}
+      />
     </Container>
   );
 }

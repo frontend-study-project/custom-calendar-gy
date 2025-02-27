@@ -1,16 +1,13 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 import useCalendar from "../hooks/useCalendar.ts";
-import CalendarHeader from "./calendarHeader.tsx";
 const DAY_LIST = ["일", "월", "화", "수", "목", "금", "토"];
 
-const CalendarBody = () => {
-  const { weekCalendarList  } = useCalendar();
+const CalendarBody = ({weekCalendarList}) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const onOpen = () => {
     setOpenModal(!openModal);
   };
-
 
   return (
       <>
@@ -78,9 +75,10 @@ const Wrapper = styled.div`
 const LineBox = styled.ul`
     position: relative;
     display: flex;
+    justify-content: flex-start;
     li {
         position: relative;
-        flex: 1;
+        width: calc(100% / 7);
         text-align: center;
     }
 `;

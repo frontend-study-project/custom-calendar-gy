@@ -14,6 +14,7 @@ interface UseCalendarReturn {
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
   goToPreviousMonth: () => void;
   goToNextMonth: () => void;
+  todayBtn: () => void;
 }
 
 const useCalendar = (): UseCalendarReturn => {
@@ -55,9 +56,21 @@ const useCalendar = (): UseCalendarReturn => {
       [],
   );
 
+  const goToNextMonth = () => {
+    const newDate = new Date(currentDate);
+    newDate.setMonth(currentDate.getMonth() + 1);
+    setCurrentDate(newDate);  // currentDate를 1개월 증가시킴
+  };
 
-  const goToPreviousMonth = () => setCurrentDate(subMonths(currentDate, 1));
-  const goToNextMonth = () => setCurrentDate(addMonths(currentDate, 1));
+  const goToPreviousMonth = () => {
+    const newDate = new Date(currentDate);
+    newDate.setMonth(currentDate.getMonth() - 1);
+    setCurrentDate(newDate);  // currentDate를 1개월 감소시킴
+  };
+
+  const todayBtn = () => {
+    setCurrentDate(new Date());  // 현재 날짜로 설정
+  };
 
   return {
     weekCalendarList,
@@ -65,6 +78,7 @@ const useCalendar = (): UseCalendarReturn => {
     setCurrentDate,
     goToPreviousMonth,
     goToNextMonth,
+    todayBtn
   };
 };
 
