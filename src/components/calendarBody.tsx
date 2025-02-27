@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import useCalendar from "../hooks/useCalendar.ts";
+import CalendarHeader from "./calendarHeader.tsx";
 const DAY_LIST = ["일", "월", "화", "수", "목", "금", "토"];
 
 const CalendarBody = () => {
+  const { weekCalendarList  } = useCalendar();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const onOpen = () => {
     setOpenModal(!openModal);
   };
 
-  // useCalendar 훅을 사용하여 날짜 관련 데이터를 가져옵니다.
-  const { weekCalendarList, currentDate } = useCalendar();
 
   return (
       <>

@@ -1,21 +1,20 @@
 import styled from "styled-components";
+import useCalendar from "../hooks/useCalendar.ts";
 
 const CalendarHeader = () => {
-  const prevBtn = () => {
-    alert("이전!");
-  };
-  const nextBtn = () => {
-    alert("다음!");
-  };
+  const { weekCalendarList, currentDate, setCurrentDate, goToPreviousMonth, goToNextMonth } = useCalendar()
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
   const todayBtn = () => {
-    alert("오늘");
+    setCurrentDate(new Date())
   };
+
   return (
     <Wrapper>
-      <h1>2025.02</h1>
+      <h1>{year}.{month}</h1>
       <div>
-        <Button onClick={prevBtn}>이전</Button>
-        <Button onClick={nextBtn}>다음</Button>
+        <Button onClick={goToPreviousMonth}>이전</Button>
+        <Button onClick={goToNextMonth}>다음</Button>
         <Button onClick={todayBtn}>오늘</Button>
       </div>
     </Wrapper>

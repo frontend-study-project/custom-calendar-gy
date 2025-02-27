@@ -55,6 +55,7 @@ const useCalendar = (): UseCalendarReturn => {
       [],
   );
 
+
   const goToPreviousMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const goToNextMonth = () => setCurrentDate(addMonths(currentDate, 1));
 
