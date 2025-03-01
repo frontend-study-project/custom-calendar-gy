@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useCalendar from "../hooks/useCalendar.ts";
 
-const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn}) => {
+const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn, openSchedule ,setOpenSchedule}) => {
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 
@@ -13,6 +13,7 @@ const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn
         <Button onClick={goToNextMonth}>다음</Button>
         <Button onClick={todayBtn}>오늘</Button>
       </div>
+      <button onClick={() => setOpenSchedule(true)}>일정추가</button>
     </Wrapper>
   );
 };
