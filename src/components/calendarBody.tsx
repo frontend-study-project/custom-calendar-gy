@@ -4,12 +4,38 @@ import { Modal, Box, TextField, Button } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import PlanBox from "./planbox.tsx";
 const DAY_LIST = ["일", "월", "화", "수", "목", "금", "토"];
+interface IScheduleProps {
+  id: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+}
 
 const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
+  const [scheduleData, setScheduleData] = useState<IScheduleProps[]>([])
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs().add(1, "hour"));
+
+  const getScheduleData = async () => {
+    try{
+      const response = await fetch("http://localhost:5001/schedules", {
+        method: "GET",
+      })
+      const data = await response.json();
+      setScheduleData(data)
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  useEffect(() => {
+    getScheduleData();
+  }, []);
+
 
   const handleSave = async () => {
     const newSchedule = {
@@ -42,6 +68,18 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
     }
   };
 
+  const getPlansForDay = (day: number) => {
+    return scheduleData.filter(schedule => {
+      const startDate = new Date(schedule.startDate);
+      const endDate = new Date(schedule.endDate);
+
+      const isWithinRange = startDate.getDate() <= day && endDate.getDate() >= day;
+
+      return isWithinRange;
+    });
+  };
+
+
 
   return (
       <>
@@ -66,7 +104,17 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
                               <li key={dayIndex}></li>
                           ) : (
                               <li key={dayIndex}>
-                                {day}
+                                <div>
+                                  {day}
+                                  {getPlansForDay(day).map(plan => (
+                                      <PlanBox
+                                          key={plan.id}
+                                          title={plan.title}
+                                          startDate={plan.startDate}
+                                          endDate={plan.endDate}
+                                      />
+                                  ))}
+                                </div>
                               </li>
                           )
                       )}
@@ -118,7 +166,7 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
                           </LocalizationProvider>
                           <Box display="flex" justifyContent="flex-end" gap={1}>
                             <Button color="error" variant="outlined" onClick={() => setOpenSchedule(false)}>취소</Button>
-                            <Button onClick={handleSave} color="primary" variant="contained">저장</Button>
+                            <Button onClick={handleSave} variant="contained">저장</Button>
                           </Box>
                         </Box>
                       </Modal>
@@ -159,38 +207,4 @@ const LineBox = styled.ul`
     }
 `;
 
-const PlanBox = styled.span`
-    background: rgb(63, 169, 245);
-    position: absolute;
-    left: 0;
-    top: 40px;
-    width: calc(100% / 7);
-    border-radius: 8px;
-    padding: 2px 5px;
-    font-size: 12px;
-    color: #fff;
-`;
 
-const ModalWrapper = styled.div`
-    position: absolute;
-    top: 30px;
-    right: 0;
-    width: 100px;
-    z-index: 1;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 10px;
-    text-align: left;
-    border: 1px solid var(--color-gray);
-    ul {
-        li {
-            height: 30px;
-            line-height: 30px;
-            cursor: pointer;
-            &:hover {
-                background-color: rgba(0, 0, 0, 0.08);
-                border-radius: 8px;
-            }
-        }
-    }
-`;

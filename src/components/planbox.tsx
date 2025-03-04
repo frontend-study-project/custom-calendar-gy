@@ -1,0 +1,35 @@
+import React from 'react';
+import styled from "styled-components";
+
+interface PlanBoxProps {
+  title: string;
+  startDate: string;
+  endDate: string;
+}
+
+const PlanBox = ({ title, startDate, endDate }: PlanBoxProps) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  return (
+      <PlanBoxWrapper>
+        {/*<h4>{title}</h4>*/}
+        {/*<p>{start.toLocaleTimeString()} - {end.toLocaleTimeString()}</p>*/}
+      </PlanBoxWrapper>
+  );
+};
+
+export default PlanBox;
+
+
+const PlanBoxWrapper = styled.div`
+    background: rgb(63, 169, 245);
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 12px;
+    color: #fff;
+`;
