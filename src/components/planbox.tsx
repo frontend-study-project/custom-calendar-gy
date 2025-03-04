@@ -5,14 +5,15 @@ interface PlanBoxProps {
   title: string;
   startDate: string;
   endDate: string;
+  randomColor: String
 }
 
-const PlanBox = ({ title, startDate, endDate }: PlanBoxProps) => {
+const PlanBox = ({ title, startDate, endDate, randomColor }: PlanBoxProps) => {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
   return (
-      <PlanBoxWrapper>
+      <PlanBoxWrapper randomColor={randomColor}>
         {/*<h4>{title}</h4>*/}
         {/*<p>{start.toLocaleTimeString()} - {end.toLocaleTimeString()}</p>*/}
       </PlanBoxWrapper>
@@ -22,8 +23,8 @@ const PlanBox = ({ title, startDate, endDate }: PlanBoxProps) => {
 export default PlanBox;
 
 
-const PlanBoxWrapper = styled.div`
-    background: rgb(63, 169, 245);
+const PlanBoxWrapper = styled.div<{ randomColor: string }>`
+    background: ${({ randomColor }) => randomColor};
     position: absolute;
     left: 0;
     top: 40px;
