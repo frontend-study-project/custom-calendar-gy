@@ -14,17 +14,10 @@ interface IScheduleProps {
 }
 
 const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
-  const [scheduleData, setScheduleData] = useState<IScheduleProps[]>([]);
+  const [scheduleData, setScheduleData] = useState<IScheduleProps[]>([])
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs().add(1, "hour"));
-
-  const getRandomColor = () => {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
-  }
 
   const getScheduleData = async () => {
     try{
@@ -38,10 +31,6 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
       console.error("Error:", error);
     }
   }
-
-  useEffect(() => {
-    getScheduleData();
-  }, []);
 
 
   const handleSave = async () => {
@@ -86,6 +75,10 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
     });
   };
 
+  useEffect(() => {
+    getScheduleData();
+  }, []);
+
   return (
       <>
         <Wrapper>
@@ -117,7 +110,6 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
                                           title={plan.title}
                                           startDate={plan.startDate}
                                           endDate={plan.endDate}
-                                          randomColor={getRandomColor()}
                                       />
                                   ))}
                                 </div>
