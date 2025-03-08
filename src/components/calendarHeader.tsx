@@ -7,7 +7,7 @@ const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn
 
   return (
     <Wrapper>
-      <h1>{year}.{month}</h1>
+      <h1>{year}년{month}월</h1>
       <div>
         <Button onClick={goToPreviousMonth}>이전</Button>
         <Button onClick={goToNextMonth}>다음</Button>
