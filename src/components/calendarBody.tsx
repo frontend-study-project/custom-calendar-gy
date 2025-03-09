@@ -15,9 +15,19 @@ interface IScheduleProps {
 
 const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
   const [scheduleData, setScheduleData] = useState<IScheduleProps[]>([])
+  const [addBtn, setAddBtn] = useState(false)
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs().add(1, "hour"));
+  const [mousePosition, setMousePosition] = useState({x: 0, y: 0});
+
+  const handleOpenSchedule = (event) => {
+    setMousePosition({
+      x: event.clientX,
+      y: event.clientY
+    })
+    setAddBtn(true)
+  }
 
   const getScheduleData = async () => {
     try{
@@ -101,7 +111,7 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
                               // 빈 날짜인 경우 (0으로 설정된 날짜)
                               <li key={dayIndex}></li>
                           ) : (
-                              <li key={dayIndex}>
+                              <li key={dayIndex} onClick={handleOpenSchedule}>
                                 <div>
                                   {day}
                                   {getPlansForDay(day).map(plan => (
@@ -171,6 +181,13 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
                   )}
                 </div>
             ))}
+            {addBtn && (
+                <AddSchedule x={mousePosition.x} y={mousePosition.y} >
+                  <div>
+                    <span onClick={() => setOpenSchedule(true)}>일정추가</span>
+                  </div>
+                </AddSchedule>
+            )}
           </>
         </Wrapper>
       </>
@@ -205,4 +222,14 @@ const LineBox = styled.ul`
     }
 `;
 
+const AddSchedule = styled.div<{x: number, y: number}>`
+    position: absolute;
+    top: ${({y}) => y}px;
+    left: ${({x}) => x}px;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    padding: 10px;
+    width: auto;
+    cursor: pointer;
+`
 
