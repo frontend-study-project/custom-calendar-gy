@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# 일정관리 캘린더입니다
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
