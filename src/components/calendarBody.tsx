@@ -13,7 +13,7 @@ interface IScheduleProps {
   endDate: string;
 }
 
-const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
+const CalendarBody = ({weekCalendarList, currentDate, openSchedule, setOpenSchedule}) => {
   const [scheduleData, setScheduleData] = useState<IScheduleProps[]>([])
   const [addBtn, setAddBtn] = useState(false)
   const [title, setTitle] = useState("");
@@ -74,16 +74,23 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
     }
   };
 
-  const getPlansForDay = (day: number) => {
+  const getPlansForDay = (year: number, month: number, day: number) => {
+    console.log(year, month, day)
     return scheduleData.filter(schedule => {
       const startDate = new Date(schedule.startDate);
       const endDate = new Date(schedule.endDate);
-
-      const isWithinRange = startDate.getDate() <= day && endDate.getDate() >= day;
+      const isWithinRange =
+          startDate.getFullYear() === year &&
+          startDate.getMonth() + 1 === month &&
+          startDate.getDate() <= day &&
+          endDate.getFullYear() === year &&
+          endDate.getMonth() + 1 === month &&
+          endDate.getDate() >= day;
 
       return isWithinRange;
     });
   };
+
 
   useEffect(() => {
     getScheduleData();
@@ -114,7 +121,7 @@ const CalendarBody = ({weekCalendarList, openSchedule, setOpenSchedule}) => {
                               <li key={dayIndex} onClick={handleOpenSchedule}>
                                 <div>
                                   {day}
-                                  {getPlansForDay(day).map(plan => (
+                                  {getPlansForDay(currentDate.getFullYear(), currentDate.getMonth() + 1, day).map(plan => (
                                       <PlanBox
                                           key={plan.id}
                                           title={plan.title}

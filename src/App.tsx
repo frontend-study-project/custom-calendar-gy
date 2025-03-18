@@ -19,6 +19,7 @@ function App() {
           setOpenSchedule={setOpenSchedule}
       />
       <CalendarBody
+          currentDate={currentDate}
           weekCalendarList={weekCalendarList}
           openSchedule={openSchedule}
           setOpenSchedule={setOpenSchedule}
