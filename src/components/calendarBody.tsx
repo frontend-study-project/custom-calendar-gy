@@ -121,12 +121,13 @@ const CalendarBody = ({weekCalendarList, currentDate, openSchedule, setOpenSched
                               <li key={dayIndex} onClick={handleOpenSchedule}>
                                 <div>
                                   {day}
-                                  {getPlansForDay(currentDate.getFullYear(), currentDate.getMonth() + 1, day).map(plan => (
+                                  {getPlansForDay(currentDate.getFullYear(), currentDate.getMonth() + 1, day).map((plan, index) => (
                                       <PlanBox
                                           key={plan.id}
                                           title={plan.title}
                                           startDate={plan.startDate}
                                           endDate={plan.endDate}
+                                          index={index}
                                       />
                                   ))}
                                 </div>
