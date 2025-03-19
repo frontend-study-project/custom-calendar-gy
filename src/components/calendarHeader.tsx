@@ -13,7 +13,7 @@ const CalendarHeader = ({currentDate, goToPreviousMonth, goToNextMonth, todayBtn
         <Button onClick={goToNextMonth}>다음</Button>
         <Button onClick={todayBtn}>오늘</Button>
       </div>
-      <Button onClick={() => setOpenSchedule(true)}>일정추가</Button>
+      {/*<Button onClick={() => setOpenSchedule(true)}>일정추가</Button>*/}
     </Wrapper>
   );
 };
